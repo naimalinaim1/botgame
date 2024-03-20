@@ -25,7 +25,6 @@
 
     <script>
       const loader = document.getElementById("loader");
-
       const initializeApp = async () => {
         const getUserId = localStorage.getItem("userId");
         const data = {
@@ -48,17 +47,13 @@
             // refer code user create
             if (!getUserId) {
               try {
-                const response = await fetch(
-                  "https://botgame-server-bt1012.vercel.app/users",
-                  {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                      "Content-type": "application/json",
-                    },
-                  }
-                );
-
+                const response = await fetch("http://localhost:3000/users", {
+                  method: "POST",
+                  body: JSON.stringify(data),
+                  headers: {
+                    "Content-type": "application/json",
+                  },
+                });
                 const responseData = await response.json();
                 if (responseData?.userId) {
                   const userId = responseData.userId;
@@ -73,12 +68,12 @@
             if (getUserId !== referId) {
               // load refer user information
               const response = await fetch(
-                `https://botgame-server-bt1012.vercel.app/users/${referId}`
+                `http://localhost:3000/users/${referId}`
               );
               const responseData = await response.json();
 
               // update refer information
-              const points = responseData.points + 50000;
+              const points = 50000;
               const totalRefer = responseData.totalRefer + 1;
               const prevFriend = responseData.friendList;
               const newFriendId = localStorage.getItem("userId");
@@ -91,7 +86,7 @@
 
               // save refer information
               const resUser = await fetch(
-                `https://botgame-server-bt1012.vercel.app/users/${referId}`,
+                `http://localhost:3000/users/${referId}`,
                 {
                   method: "PATCH",
                   body: JSON.stringify(referUserData),
@@ -100,7 +95,8 @@
                   },
                 }
               );
-              const resUserData = await resUser.json();
+
+              await resUser.json();
             }
           } catch (err) {
             console.log(err);
@@ -109,16 +105,13 @@
           // no refer code user create
           if (!getUserId) {
             try {
-              const response = await fetch(
-                "https://botgame-server-bt1012.vercel.app/users",
-                {
-                  method: "POST",
-                  body: JSON.stringify(data),
-                  headers: {
-                    "Content-type": "application/json",
-                  },
-                }
-              );
+              const response = await fetch("http://localhost:3000/users", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                  "Content-type": "application/json",
+                },
+              });
 
               const responseData = await response.json();
               if (responseData?.userId) {

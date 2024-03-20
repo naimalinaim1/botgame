@@ -52,6 +52,9 @@ const ClimeDate = () => {
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
+      if (isNaN(seconds)) {
+        window.location.reload();
+      }
       setTimeLeft({ days, hours, minutes, seconds });
     }, 1000);
 
